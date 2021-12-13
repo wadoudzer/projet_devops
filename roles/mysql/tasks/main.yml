@@ -5,7 +5,7 @@
   become_user: root
   apt: name=mysql-server state=present
 
-- name: 1.2 Install python Mysql package #required for mysql_db tasks
+- name: 1.2 Install python Mysql package 
   become: yes
   become_user: root
   apt: name=python-mysqldb state=present
@@ -23,14 +23,12 @@
 - name: 4. Create user for mysql
   become: yes
   become_user: root
-  mysql_user: user="wadoud" host="localhost" password=¨"wadoud1" priv=*.*:ALL,GRANT state=present
+  mysql_user: user="root" host="127.0.0.1" password=¨"wadoud1" priv=*.*:ALL,GRANT state=present
 
-
-
-- name: Copy .my.cnf file with root password credentials
+- name: 4.1. Create a new database
   become: yes
   become_user: root
-  template: src=templates/.my.cnf dest=/etc/mysql/my.cnf owner=root mode=0600
+  mysql_db: name=devops_projet state=present collation=utf8_general_ci
 
 - name: Update mysql root password for all root accounts
   become: yes
@@ -45,12 +43,12 @@
 - name: 5a. Copy sample data
   become: yes
   become_user: root
-  copy: src=dump.sql dest=/tmp/dump.sql
+  copy: src=devops_projet.sql dest=/tmp/devops_projet.sql
   
 - name: 5b. Insert sample data
   become: yes
   become_user: root
-  shell: cat /tmp/dump.sql | sudo mysql -uwadoud -pwadoud1 devops_projet
+  shell: cat /tmp/devops_projet.sql | sudo mysql -uroot -pwadoud1 devops_projet
 
 - name: 6a. Install MySQL extension for PHP
   become: yes
@@ -62,7 +60,7 @@
   become_user: root
   service: name=apache2 state=restarted
 
-- name: 7. copying php script 
+- name: 7. copying php-mysql connexion script 
   become: yes
   become_user: root  
-  copy: src=db.php dest=/var/www/html/db.php mode=0664
+  copy: src=connex.php dest=/var/www/html/connex.php mode=777

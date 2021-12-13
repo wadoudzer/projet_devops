@@ -1,7 +1,7 @@
 <?php
 try
 {
-$mysqlClient = new PDO('mysql:host=localhost;dbname=devops_projet;charset=utf8', 'wadoud', 'wadoud1');
+$mysqlClient = new PDO('mysql:host=localhost;dbname=devops_projet;charset=utf8', 'root', 'wadoud1');
 }
 catch(Exception $e)
 {
