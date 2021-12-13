@@ -1,36 +1,36 @@
 # roles/database/tasks/main.yml
 ---
-- name: 1. Install mysql server package
+- name: 1.mysql server installation 
   become: yes
   become_user: root
   apt: name=mysql-server state=present
 
-- name: 1.2 Install python Mysql package 
+- name: 2. python-Mysql installation for mysql tasks  
   become: yes
   become_user: root
   apt: name=python-mysqldb state=present
 
-- name: 2. Start Mysql Service
+- name: 3. Starting Mysql Service
   become: yes
   become_user: root
   service: name=mysql state=started enabled=true
 
-- name: 3. remove test db
+- name: 4. removing test db
   become: yes
   become_user: root
   mysql_db: name=test state=absent
 
-- name: 4. Create user for mysql
+- name: 5. user creation for mysql
   become: yes
   become_user: root
   mysql_user: user="root" host="127.0.0.1" password=¨"wadoud1" priv=*.*:ALL,GRANT state=present
 
-- name: 4.1. Create a new database
+- name: 6. database creation
   become: yes
   become_user: root
   mysql_db: name=devops_projet state=present collation=utf8_general_ci
 
-- name: Update mysql root password for all root accounts
+- name: 7. Updating mysql root password for all root accounts
   become: yes
   become_user: root
   mysql_user: name=root host={{item}} password="wadoud1"
@@ -40,27 +40,27 @@
     - localhost
 
 
-- name: 5a. Copy sample data
+- name: 7. Copying db data
   become: yes
   become_user: root
   copy: src=devops_projet.sql dest=/tmp/devops_projet.sql
   
-- name: 5b. Insert sample data
+- name: 8. Inserting db data
   become: yes
   become_user: root
   shell: cat /tmp/devops_projet.sql | sudo mysql -uroot -pwadoud1 devops_projet
 
-- name: 6a. Install MySQL extension for PHP
+- name: 9. Installing MySQL extension for PHP
   become: yes
   become_user: root
   apt: name=php-mysql state=present
 
-- name: 6b. Restart Apache
+- name: 10. Restarting Apache
   become: yes
   become_user: root
   service: name=apache2 state=restarted
 
-- name: 7. copying php-mysql connexion script 
+- name: 11. copying php-mysql connexion script 
   become: yes
   become_user: root  
   copy: src=connex.php dest=/var/www/html/connex.php mode=777

@@ -1,27 +1,27 @@
 # roles/apache2/tasks/main.yml
 ---
-- name: 1. install Apache
+- name: 1. installing Apache
   become: yes
   become_user: root
   apt: name=apache2 state=present
 
-- name: 2. install php
+- name: 2. installing php
   become: yes
   become_user: root
   apt: name=php state=present
 
 
-- name: 3. install PHP module for Apache
+- name: 3. installing PHP module for Apache
   become: yes
   become_user: root
   apt: name=libapache2-mod-php state=present
 
-- name: 4. reload Apache
+- name: 4. reloading Apache
   become: yes
   become_user: root
   service: name=apache2 state=reloaded enabled=yes
 
-- name: 5. install Hello World PHP script
+- name: 5. copying php script
   become: yes
   become_user: root
   copy: src=index.php dest=/var/www/html/index.php mode=0664
