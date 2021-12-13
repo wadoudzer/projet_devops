@@ -33,11 +33,8 @@
 - name: 7. Updating mysql root password for all root accounts
   become: yes
   become_user: root
-  mysql_user: name=root host={{item}} password="wadoud1"
-  with_items:
-    - 127.0.0.1
-    - ::1
-    - localhost
+  mysql_user: name=root host=127.0.0.1 password="wadoud1"
+  
 
 
 - name: 7. Copying db data

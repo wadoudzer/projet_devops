@@ -1,4 +1,4 @@
-# -*- mode: ruby -*-
+*# -*- mode: ruby -*-
 # vi: set ft=ruby :
 
 
@@ -15,10 +15,11 @@ Vagrant.configure("2") do |config|
 
   #network settings
   config.vm.network "private_network", ip: "192.168.56.1"
-  config.vm.network "forwarded_port", guest: 80, host:8088
+  config.vm.network "forwarded_port", guest: 80, host:8880
   config.ssh.insert_key = false
-
+  #to run vagrant in wsl
   config.vm.synced_folder "/root", "vagrant", disabled: true
+  #provision settings
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"
     ansible.playbook = "playbook.yml"

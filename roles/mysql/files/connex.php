@@ -9,13 +9,18 @@ catch(Exception $e)
 die('Erreur : '.$e->getMessage());
 }
 $sqlQuery = 'SELECT * FROM user';
+
 $usersStatement = $mysqlClient->prepare($sqlQuery);
+
 $usersStatement->execute();
+
 $users = $usersStatement->fetchAll();
+
 foreach ($users as $user) {
-?>
-<p><?php echo $user['first_name']; ?></p>
-<?php
+
+<p><?php echo $user['first_name', 'second_name']; ?></p>
+
 }
+
 ?>
 
